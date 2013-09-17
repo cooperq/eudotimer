@@ -16,7 +16,6 @@ $(function(){
       var roundLength = this.get('roundLength') * 60;
       var roundEnd = parseInt(roundStart) + parseInt(roundLength);
       var now = Math.round(new Date().getTime()/1000);
-      console.log('round', roundEnd, roundStart, roundLength, now);
       return roundEnd - now;
     },
   });
@@ -44,21 +43,17 @@ $(function(){
   var TimerListView = Backbone.View.extend({
     el: '#content-inner-container',
     render: function(){
-      console.log('tick');
       if(this.collection.length <= 0){ return this };
-      console.log('adding alltimers');
       this.$el.html('');
       this.addAllTimers();
       return this;
     },
     addTimer: function(timer){
-      console.log('adding timer', timer);
       var view = new TimerView({model:timer})
       var t = view.render().el;
       this.$el.append(t);
     },
     addAllTimers: function(){
-      console.log(this.collection);
       this.collection.each(this.addTimer, this);
     }
   });
