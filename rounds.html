@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Eudomonia - Round Timer</title>
+    <script type='text/javascript' src='vendor/underscore.js'></script>
+    <script type='text/javascript' src='vendor/jquery.js'/></script>
+    <script type='text/javascript' src='vendor/date.js'/></script>
+    <script type='text/javascript' src='vendor/backbone.js'></script>
+    <script type='text/javascript' src='rounds.js'></script>
+  </head>
+  <body>
+
+    <div id='page'>
+      <div id='content-outer-container'>
+        <div id='content-inner-container'>
+        </div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <script type='text/template' id='timer-container'>
+      <div class='timerContainer' id=<%=timer.id%> >
+        <div class='timerInnerContainer'>
+          <div class='timerName'><%= timer.name %> </div><div class='timerCountdown'><%= timer.timeRemaining %></div>
+        </div>
+      </div>
+    </script>
+
+  </body>
+</html>
