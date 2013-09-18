@@ -23,15 +23,15 @@
     {
         "id": 4,
         "roundName": "Round 2",
-        "roundStart": 1379466231,
+        "roundStart": 1379533300,
         "isEvent": false,
-        "roundLength": 65
+        "roundLength": 50
     },
     {
         "id": 5,
         "roundName": "other event",
-        "roundStart": 1379466239,
+        "roundStart": 1379535802,
         "isEvent": true,
-        "roundLength": 120
+        "roundLength": 0
     }
 ]

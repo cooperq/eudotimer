@@ -20,6 +20,12 @@ $(function(){
     },
     isEvent: function(){
       return !!this.get('isEvent');
+    },
+    isNotEvent: function(){
+      return !this.get('isEvent');
+    },
+    roundHasStarted: function(){
+      return this.isNotEvent() && (parseInt(this.get('roundStart')) > Math.round(new Date().getTime()/1000));
     }
   });
 
@@ -28,7 +34,7 @@ $(function(){
     model: Timer,
     current: function(){
       //filter to only show current rounds
-      var threshold = 7200; //threshold in seconds for displaying rounds.  3600 = 1 hour.
+      var threshold = 3600; //threshold in seconds for displaying rounds.  3600 = 1 hour.
       var rounds = this.filter(function(round){
         return threshold > Math.abs(round.getTimeRemaining());
       });
@@ -56,6 +62,7 @@ $(function(){
     },
     render: function(){ 
       var self = this;
+
       var timeRemainingStr = function(){
         if(self.model.getTimeRemaining() < 0){
           var timer = "";
@@ -64,7 +71,10 @@ $(function(){
           }else{
             var message = "The round is finished";
           }
-        } else {
+        } else if(self.model.roundHasStarted()) {
+          var timer = "";
+          var message = "The round will start at " + new Date(self.model.get('roundStart') * 1000).toString("hh:mm");
+        } else { //There is still time left in the round or until the event starts
           var timer = self.formatSeconds(self.model.getTimeRemaining())
           if(self.model.isEvent()){
             var message = " remaining until event starts";
@@ -74,6 +84,7 @@ $(function(){
         }
         return timer + message;
       }
+
       this.$el.html(this.template({
         timer:{
           id: this.model.id,
