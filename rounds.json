@@ -3,24 +3,35 @@
         "id": 1,
         "roundName": "Round 1",
         "roundStart": 1379403636,
+        "isEvent": false,
         "roundLength": 120
     },
     {
         "id": 2,
         "roundName": "Theros Prerelease",
         "roundStart": 1379408400,
+        "isEvent": true,
         "roundLength": 0
     },
     {
         "id": 3,
         "roundName": "m13 sealed - round 1 THIS SHOULDNT SHOW UP",
         "roundStart": 1279408400,
+        "isEvent": true,
         "roundLength": 0
     },
     {
         "id": 4,
         "roundName": "Round 2",
-        "roundStart": 1379404636,
-        "roundLength": 240
+        "roundStart": 1379466231,
+        "isEvent": false,
+        "roundLength": 65
+    },
+    {
+        "id": 5,
+        "roundName": "other event",
+        "roundStart": 1379466239,
+        "isEvent": true,
+        "roundLength": 120
     }
 ]

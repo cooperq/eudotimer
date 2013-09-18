@@ -1,0 +1,17 @@
+body{
+  font-family: arial, sans-serif;
+}
+
+.timerContainer{
+  border: 1px solid black;
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
+}
+.timerName{
+  font-size: 28px;
+}
+.timerCountdown{
+  font-size: 40px;
+  font-weight: bold;
+}
