@@ -1,37 +1,8 @@
 [
-    {
-        "id": 1,
-        "roundName": "Round 1",
-        "roundStart": 1379403636,
-        "isEvent": false,
-        "roundLength": 120
-    },
-    {
-        "id": 2,
-        "roundName": "Theros Prerelease",
-        "roundStart": 1379408400,
-        "isEvent": true,
-        "roundLength": 0
-    },
-    {
-        "id": 3,
-        "roundName": "m13 sealed - round 1 THIS SHOULDNT SHOW UP",
-        "roundStart": 1279408400,
-        "isEvent": true,
-        "roundLength": 0
-    },
-    {
-        "id": 4,
-        "roundName": "Round 2",
-        "roundStart": 1379533300,
-        "isEvent": false,
-        "roundLength": 50
-    },
-    {
-        "id": 5,
-        "roundName": "other event",
-        "roundStart": 1379535802,
-        "isEvent": true,
-        "roundLength": 0
-    }
+  {"start_time": ["23:23:00"], "round_length": 50, "id": [6], "round": [1], "name": ["Duel Deck Wars"]}, 
+  {"start_time": ["23:23:00"], "round_length": 0, "id": [7], "round": [0], "name": ["Duel Deck Wars"]}, 
+  {"start_time": ["23:36:05"], "round_length": 0, "id": [25], "round": [0], "name": ["FNM 4"]},
+  {"start_time": ["23:55:39"], "round_length": 50, "id": [26], "round": [2], "name": ["Duel Deck Wars"]},
+  {"start_time": ["22:00:00"], "round_length": 50, "id": [29], "round": [1], "name": ["Susan's Draft Pod"]},
+  {"start_time": ["22:14:34"], "round_length": 50, "id": [30], "round": [1], "name": ["Draft 5"]}
 ]

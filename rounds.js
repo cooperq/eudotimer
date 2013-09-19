@@ -11,34 +11,38 @@ $(function(){
   };
 
   var Timer = Backbone.Model.extend({
+    getName: function(){
+      var name = this.get('name')[0];
+      var round = this.get('round')[0];
+      if(round > 0){ name += ' - Round ' + round}
+      return name;
+    },
+    getStartTime: function(){
+      return Date.parse(this.get('start_time')[0]);
+    },
     getTimeRemaining: function(){
-      var roundStart = this.get('roundStart') * 1;
-      var roundLength = this.get('roundLength') * 60;
-      var roundEnd = parseInt(roundStart) + parseInt(roundLength);
+      var start_time = this.getStartTime();
+      var round_length = this.get('round_length') * 60;
+      var roundEnd = Math.round(this.getStartTime().getTime()/1000) + round_length;
       var now = Math.round(new Date().getTime()/1000);
       return roundEnd - now;
     },
     isEvent: function(){
-      return !!this.get('isEvent');
+      return this.get('round') < 1;
     },
     isNotEvent: function(){
-      return !this.get('isEvent');
+      return this.get('round') > 1;
     },
-    roundHasStarted: function(){
-      return this.isNotEvent() && (parseInt(this.get('roundStart')) > Math.round(new Date().getTime()/1000));
+    roundHasNotStarted: function(){
+      return this.isNotEvent() && (Math.round(this.getStartTime().getTime()/1000) > Math.round(new Date().getTime()/1000));
     }
   });
 
   var TimerCollection = Backbone.Collection.extend({
     url: function(){ return '/rounds.json'},
     model: Timer,
-    current: function(){
-      //filter to only show current rounds
-      var threshold = 3600; //threshold in seconds for displaying rounds.  3600 = 1 hour.
-      var rounds = this.filter(function(round){
-        return threshold > Math.abs(round.getTimeRemaining());
-      });
-      return rounds;
+    comparator: function(timer){
+      return timer.get('name')[0] + timer.get('round')[0]  
     }
   });
 
@@ -71,9 +75,9 @@ $(function(){
           }else{
             var message = "The round is finished";
           }
-        } else if(self.model.roundHasStarted()) {
+        } else if(self.model.roundHasNotStarted()) {
           var timer = "";
-          var message = "The round will start at " + new Date(self.model.get('roundStart') * 1000).toString("hh:mm");
+          var message = "The round will start at " + self.model.getStartTime().toString("hh:mm");
         } else { //There is still time left in the round or until the event starts
           var timer = self.formatSeconds(self.model.getTimeRemaining())
           if(self.model.isEvent()){
@@ -88,7 +92,7 @@ $(function(){
       this.$el.html(this.template({
         timer:{
           id: this.model.id,
-          name:this.model.get('roundName'),
+          name:this.model.getName(),
           timeRemaining: timeRemainingStr()
         }
       }));
@@ -110,7 +114,7 @@ $(function(){
       this.$el.append(t);
     },
     addAllTimers: function(){
-      _.each(this.collection.current(),this.addTimer, this);
+      this.collection.each(this.addTimer, this);
     }
   });
   
