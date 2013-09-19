@@ -81,28 +81,30 @@ $(function(){
       return output;
     },
 
-    //a clusterfuck that adds a helpful string to the end of the time
-    //TODO: Refactor this
-    formatTimeRemainingStr: function(){
-      if(this.model.getTimeRemaining() < 0){
-        var timer = "";
-        if(this.model.isEvent()){
-          var message = "The event has started";
-        }else{
-          var message = "The round is finished";
+    //a utility function that adds a helpful string to the end of the time
+    timeRemainingStr: function(){
+      var round = this.model
+      var message = "";
+
+      if(round.isEvent()){  //this is an event
+        if(round.getTimeRemaining() < 0){ //the event has started
+          message = "The event has started";
+        } else { //the event has not started
+          message = "The event will start at " + round.getStartTime().toString("hh:mm");
         }
-      } else if(this.model.roundHasNotStarted()) {
-        var timer = "";
-        var message = "The round will start at " + this.model.getStartTime().toString("hh:mm");
-      } else { //There is still time left in the round or until the event starts
-        var timer = this.formatSeconds(this.model.getTimeRemaining())
-        if(this.model.isEvent()){
-          var message = " remaining until event starts";
-        }else{
-          var message = " left in the round";
+
+      } else { //this is a round
+        if(round.getTimeRemaining() < 0){ //the round is finished
+          message = "The round is finished";
+        } else if(round.roundHasNotStarted()) { //round that has not started
+          message = "The round will start at " + round.getStartTime().toString("hh:mm");
+        } else { //the round is in progress
+           message = this.formatSeconds(this.model.getTimeRemaining())
+           message += " left in the round";
         }
       }
-      return timer + message;
+
+      return message;
     },
 
     //render a single timer on the screen
@@ -111,7 +113,7 @@ $(function(){
         timer:{
           id: this.model.id,
           name:this.model.getName(),
-          timeRemaining: this.formatTimeRemainingStr()
+          timeRemaining: this.timeRemainingStr()
         }
       }));
       return this;
