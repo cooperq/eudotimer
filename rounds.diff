@@ -1,0 +1,81 @@
+diff --git a/rounds.html b/rounds.html
+index b7fffcf..7987bee 100644
+--- a/rounds.html
++++ b/rounds.html
+@@ -1,12 +1,12 @@
+ <html>
+   <head>
+     <title>Eudomonia - Round Timer</title>
+-    <script type='text/javascript' src='/vendor/underscore.js'></script>
+-    <script type='text/javascript' src='/vendor/jquery.js'/></script>
+-    <script type='text/javascript' src='/vendor/date.js'/></script>
+-    <script type='text/javascript' src='/vendor/backbone.js'></script>
+-    <script type='text/javascript' src='/rounds.js'></script>
+-    <link href='/rounds.css' media="all" rel="stylesheet" type="text/css" />
++    <script type='text/javascript' src='/static/vendor/underscore.js'></script>
++    <script type='text/javascript' src='/static/vendor/jquery.js'/></script>
++    <script type='text/javascript' src='/static/vendor/date.js'/></script>
++    <script type='text/javascript' src='/static/vendor/backbone.js'></script>
++    <script type='text/javascript' src='/static/rounds.js'></script>
++    <link href='/static/rounds.css' media="all" rel="stylesheet" type="text/css" />
+
+   </head>
+   <body>
+diff --git a/rounds.js b/rounds.js
+index 39d149f..2f75940 100644
+--- a/rounds.js
++++ b/rounds.js
+@@ -47,10 +47,10 @@ $(function(){
+
+   //Collection for Timer
+   var TimerCollection = Backbone.Collection.extend({
+-    url: function(){ return '/rounds.json'},
++    url: function(){ return '/timer/json/'},
+     model: Timer,
+     comparator: function(timer){
+-      return timer.get('name')[0] + timer.get('round')[0]
++      return timer.get('name')[0] + timer.get('round')[0]
+     }
+   });
+
+@@ -108,7 +108,7 @@ $(function(){
+     },
+
+     //render a single timer on the screen
+-    render: function(){
++    render: function(){
+       this.$el.html(this.template({
+         timer:{
+           id: this.model.id,
+@@ -146,21 +146,21 @@ $(function(){
+       this.collection.each(this.addTimer, this);
+     }
+   });
+-
++
+   //initialize the collection and list view
+   Timers = new TimerCollection();
+   var RoundList = new TimerListView({collection: Timers});
+
+   //start the main loop
+-  setInterval((function(self) {
++  setInterval((function(self) {
+     //stupid code trick to preserve scope
+     return function() {
+       RoundList.render();
+     }
+   })(this) , 1000);
+-
++
+   //Check for updates to rounds from server every 5 seconds
+-  setInterval((function(self) {
++  setInterval((function(self) {
+     return function() {
+       Timers.fetch();
+     }
+@@ -168,6 +168,6 @@ $(function(){
+
+   //Get the inital data
+   Timers.fetch();
+-
++ });

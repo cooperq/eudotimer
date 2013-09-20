@@ -32,11 +32,11 @@ $(function(){
     },
 
     isEvent: function(){
-      return this.get('round') < 1;
+      return this.get('round')[0] < 1;
     },
 
     isNotEvent: function(){
-      return this.get('round') > 1;
+      return this.get('round')[0] >= 1;
     },
 
     roundHasNotStarted: function(){
