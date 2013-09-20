@@ -47,7 +47,7 @@ $(function(){
 
   //Collection for Timer
   var TimerCollection = Backbone.Collection.extend({
-    url: function(){ return '/rounds.json'},
+    url: function(){ return '/timer/json'},
     model: Timer,
     comparator: function(timer){
       return timer.get('name')[0] + timer.get('round')[0]  
