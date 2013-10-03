@@ -302,7 +302,9 @@ h1::before {
 	border-radius: 0 5px 5px 0 !important;
 	left: 0 !important;
 }
-
+.slide{
+  width: 100%;
+}
 /*--- PHONES ---------------------------------------------------------*/
 
 @media (max-width: 767px) {
