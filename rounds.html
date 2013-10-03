@@ -1,31 +1,87 @@
-<html>
-  <head>
-    <title>Eudomonia - Round Timer</title>
-    <script type='text/javascript' src='/static/vendor/underscore.js'></script>
-    <script type='text/javascript' src='/static/vendor/jquery.js'/></script>
-    <script type='text/javascript' src='/static/vendor/date.js'/></script>
-    <script type='text/javascript' src='/static/vendor/backbone.js'></script>
-    <script type='text/javascript' src='/static/rounds.js'></script>
-    <link href='/static/rounds.css' media="all" rel="stylesheet" type="text/css" />
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/><!-- Please don't add "maximum-scale=1" here. It's bad for accessibility. -->
 
-  </head>
-  <body>
+  <title>EudoGames Event Timers</title>
 
-    <div id='page'>
-      <div id='content-outer-container'>
-        <div id='content-inner-container'>
-        </div>
-      </div>
-    </div>
+  <link rel="stylesheet" href="http://www.eudogames.com/sites/all/themes/eudogames2/js/plugins/flexslider.css"/>
+  <link rel="stylesheet" href="/static/eudotimer/timer.css"/>
 
-    <!-- Templates -->
-    <script type='text/template' id='timer-container'>
-      <div class='timerContainer' id=<%=timer.id%> >
-        <div class='timerInnerContainer'>
-          <div class='timerName'><%= timer.name %> </div><div class='timerCountdown'><%= timer.timeRemaining %></div>
-        </div>
-      </div>
-    </script>
+  <link rel="shortcut icon" type="image/png" href="/static/eudotimer/favicon.png"/>
+</head>
+<body>
 
-  </body>
+<section id="timers">
+  <h1>Current Events</h1>
+
+  <div id="timers-inner">
+    <!-- timers dynamically inserted here -->
+  </div>
+</section>
+
+<section id="events">
+  <h1>Upcoming Events</h1>
+
+  <div class="flexslider">
+    <ul class="slides clearfix">
+      <li><a href="http://www.eudogames.com/blog/team-magictraders-wins-big-gp-oakland"><img alt="Congrats to our GP Oakland players: Eric Severson, Neal Oliver, and Ben Weitz" src="http://www.eudogames.com/img/mtg/gpoakland-congrats.jpg"/></a></li>
+      <li><a href="http://www.eudogames.com/magic/ptq-valencia14"><img alt="PTQ Born of the Gods: Saturday, October 5th at Eudemonia" src="http://www.eudogames.com/img/mtg/ptq-valencia14-slide.jpg"/></a></li>
+      <li><a href="http://www.eudogames.com/magic/theros-prerelease"><img alt="Theros Prerelease Events: Friday, September 20 to Sunday, September 22" src="http://www.eudogames.com/img/mtg/ths-prerelease-slide.jpg"/></a></li>
+      <li><a href="http://www.eudogames.com/magic/weekly-standard"><img src="http://www.eudogames.com/img/mtg/weekly-standard-slide.jpg" alt="Standard now 5 days a week! Sunday, Monday, Tuesday, Wednesday $5. Friday $10." /></a></li>
+    </ul>
+  </div>
+<!--
+  <dl>
+    <dt>Theros Release Events</dt>
+    <dd>Thurdsay&#8202;&#8211;&#8202;Sunday. September 26&#8202;&#8211;&#8202;29</dd>
+
+    <dt><abbr>PTQ</abbr> Born <i>of the</i> Gods</dt>
+    <dd>Saturday, October 5</dd>
+
+    <dt>Standard <i>for</i> Power</dt>
+    <dd>Sunday, October 6</dd>
+
+    <dt>October Legacy / <abbr>GPT</abbr> Washington <abbr>DC</abbr></dt>
+    <dd>Sunday, October 13</dd>
+
+    <dt>Theros Game Days</dt>
+    <dd>Saturday &amp; Sunday, October 19 &amp; 20</dd>
+
+    <dt>Fall Vintage Tournament</dt>
+    <dd>Sunday, October 27</dd>
+  </dl>
+-->
+  <p class="big align-center"><a href="http://www.eudogames.com/">Visit <b>EudoGames.com</b> for more events!</a></p>
+</section>
+
+<p id="nfo"></p>
+
+<!-- TEMPLATE, each will get wrapped in a horrible anonymous DIV -->
+<script type="text/template" id="timer-template">
+  <span class="timer-name"><%= timer.name %></span>
+  <span class="timer-time"><%= timer.timeRemaining %></span>
+</script>
+
+<script type="text/javascript" src="/static/eudotimer/vendor/underscore.js"></script>
+<script type="text/javascript" src="/static/eudotimer/vendor/jquery.js"/></script>
+<script type="text/javascript" src="/static/eudotimer/vendor/date.js"/></script>
+<script type="text/javascript" src="/static/eudotimer/vendor/backbone.js"></script>
+<script type="text/javascript" src="/static/eudotimer/rounds.js"></script>
+
+<script src="http://www.eudogames.com/sites/all/themes/eudogames2/js/plugins/flexslider-min.js"></script>
+<script>
+$(document).ready(function(){
+  $('.flexslider').flexslider({
+    animation: 'slide',
+    keyboard: false,
+    pauseOnHover: true,
+    slideshowSpeed: 10000,
+  });
+});
+</script>
+
+</body>
 </html>

@@ -8,7 +8,7 @@ $(function(){
 
   //pointers to template containers.  Templates are located in rounds.html
   var TimerTemplates = {
-    timer_container: _.template($("#timer-container").html())
+    timer_container: _.template($("#timer-template").html())
   };
 
   //Main timer model
@@ -50,7 +50,7 @@ $(function(){
     url: function(){ return '/timer/json'},
     model: Timer,
     comparator: function(timer){
-      return timer.get('name')[0] + timer.get('round')[0]  
+      return timer.get('name')[0] + timer.get('round')[0]
     }
   });
 
@@ -71,13 +71,17 @@ $(function(){
     //utitlity function to format a number as hours:minutes:seconds
     formatSeconds: function(secs){
       var output = '';
-      var hours = parseInt(secs / 3600);
-      var minutes = Math.floor(secs / 60) % 60;
-      var seconds = secs % 60;
+      var sign = '';
+      if(secs < 0){ sign = '-'}
+      var hours = Math.abs(parseInt(secs / 3600));
+      var minutes = Math.floor(Math.abs(secs / 60)) % 60;
+      var seconds = Math.abs(secs % 60);
       if(hours > 0){
-        output += hours + ":";
+        output += sign + hours + ":" + this.pad(minutes) + ":" + this.pad(seconds);
       }
-      output += this.pad(minutes) + ":" + this.pad(seconds);
+      else{
+        output += sign + minutes + ":" + this.pad(seconds);
+      }
       return output;
     },
 
@@ -86,21 +90,20 @@ $(function(){
       var round = this.model
       var message = "";
 
-      if(round.isEvent()){  //this is an event
+      if(round.isEvent()){ //this is an event
         if(round.getTimeRemaining() < 0){ //the event has started
-          message = "The event has started";
+          message = "Started";
         } else { //the event has not started
-          message = "The event will start at " + round.getStartTime().toString("hh:mm");
+          message = "Starts at <time>" + round.getStartTime().toString("h:mm") + "</time>";
         }
 
       } else { //this is a round
-        if(round.getTimeRemaining() < 0){ //the round is finished
-          message = "The round is finished";
+        if(round.getTimeRemaining() < 0 && round.getTimeRemaining() > -60){ //the round is finished
+          message = "Finished";
         } else if(round.roundHasNotStarted()) { //round that has not started
-          message = "The round will start at " + round.getStartTime().toString("hh:mm");
+          message = "Starts at <time>" + round.getStartTime().toString("h:mm") + "</time>";
         } else { //the round is in progress
-           message = this.formatSeconds(this.model.getTimeRemaining())
-           message += " left in the round";
+          message = "<time>" + this.formatSeconds(this.model.getTimeRemaining()) + "</time>";
         }
       }
 
@@ -108,7 +111,7 @@ $(function(){
     },
 
     //render a single timer on the screen
-    render: function(){ 
+    render: function(){
       this.$el.html(this.template({
         timer:{
           id: this.model.id,
@@ -124,11 +127,12 @@ $(function(){
   var TimerListView = Backbone.View.extend({
 
     //target element to render the view in
-    el: '#content-inner-container',
+    el: '#timers-inner',
 
     //render the list
     render: function(){
-      if(this.collection.length <= 0){ this.$el.html('<h1>There are no current events</h1>'); return this };
+      if(this.collection.length <= 0){ this.$el.html('<p>There are no current events.</p>'); return this };
+      if(this.collection.length > 5) { $('body').addClass('busy') } else { $('body').removeClass('busy') };
       this.$el.html('');
       this.addAllTimers();
       return this;
@@ -146,21 +150,21 @@ $(function(){
       this.collection.each(this.addTimer, this);
     }
   });
-  
+
   //initialize the collection and list view
   Timers = new TimerCollection();
   var RoundList = new TimerListView({collection: Timers});
 
   //start the main loop
-  setInterval((function(self) {         
+  setInterval((function(self) {
     //stupid code trick to preserve scope
     return function() {
       RoundList.render();
     }
   })(this) , 1000);
- 
+
   //Check for updates to rounds from server every 5 seconds
-  setInterval((function(self) {         
+  setInterval((function(self) {
     return function() {
       Timers.fetch();
     }
@@ -168,6 +172,6 @@ $(function(){
 
   //Get the inital data
   Timers.fetch();
-   
+
 });
 
