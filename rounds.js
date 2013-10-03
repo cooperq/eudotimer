@@ -15,9 +15,9 @@ $(function(){
   var Timer = Backbone.Model.extend({
 
     getName: function(){
-      var name = this.get('name')[0];
+      var name = "<span class='eventName'>" + this.get('name')[0] + "</span>";
       var round = this.get('round')[0];
-      if(round > 0){ name += ' - Round ' + round}
+      if(round > 0){ name += '<span class="sep"> - </span><span class="roundNumber">Round ' + round + '</span>'}
       return name;
     },
 
