@@ -98,12 +98,12 @@ $(function(){
         }
 
       } else { //this is a round
-        if(round.getTimeRemaining() < 0 && round.getTimeRemaining() > -60){ //the round is finished
-          message = "Finished";
+        if(round.getTimeRemaining() < 0){ //the round is finished
+          message = "<time class='finished'>" + this.formatSeconds(this.model.getTimeRemaining()) + "</time>";
         } else if(round.roundHasNotStarted()) { //round that has not started
-          message = "Starts at <time>" + round.getStartTime().toString("h:mm") + "</time>";
+          message = "Starts at <time class='pending'>" + round.getStartTime().toString("h:mm") + "</time>";
         } else { //the round is in progress
-          message = "<time>" + this.formatSeconds(this.model.getTimeRemaining()) + "</time>";
+          message = "<time class='active'>" + this.formatSeconds(this.model.getTimeRemaining()) + "</time>";
         }
       }
 
